@@ -58,14 +58,14 @@ function do_flashing()
 		if [ $? -ne 0 ]; then
 			echo "Sparse image ${img} convert error..."
 			rm -rf {tmp_dir}
-			exit 1	
+			exit 1
 		fi
 	done
 
 	# Start flashing
 	sudo ./${FLASH_TOOL} -D ${FLASH_CONFIG} -S
 	if [ $? -ne 0 ]; then
-		echo "Flash error, refer to ${tmp_dir} for error logs..."	
+		echo "Flash error, refer to ${tmp_dir} for error logs..."
 	else
 		echo "Flash success..."
 		rm -rf ${tmp_dir}
@@ -84,7 +84,7 @@ case "$1" in
 	if [ $# -lt 2 ]; then
 		print_help
 	fi
-		
+
 	do_flashing "$2"
 	;;
 *)
