@@ -17,16 +17,14 @@ function start_sshfs() {
 		exit 1
 	fi
 
-	nohup sshfs -o uid=1000 -o gid=1000 -o sshfs_sync -o reconnect \
-		san@one77.local:/home/san/aosp /home/san/mnt/aosp/ > /dev/null 2>&1 &
-	sleep 3
+	sshfs -o uid=$(id -u) -o gid=$(id -u) -o sshfs_sync -o reconnect -o \
+		follow_symlinks san@one77.local:/home/san/aosp /home/san/mnt/aosp/ \
 
-	nohup sshfs -o uid=1000 -o gid=1000 -o sshfs_sync -o reconnect \
-		san@one77.local:/home/san/.brillo/ /home/san/.brillo/ > /dev/null 2>&1 &
-	sleep 3
+	sleep 2
 
-#	nohup sshfs -o uid=1000 -o gid=1000 -o sshfs_sync -o reconnect \
-#		san@one77.local:/home/san/m7-dev/ /home/san/mnt/m7-dev/ > /dev/null 2>&1 &
+	sshfs -o uid=$(id -u) -o gid=$(id -u) -o sshfs_sync -o reconnect -o \
+		follow_symlinks san@one77.local:/home/san/git/alp/armada/buildroot-new/out/abox_hub/images \
+		/tftpboot/abox_hub
 }
 
 function stop_sshfs() {
@@ -35,10 +33,9 @@ function stop_sshfs() {
 		echo "Already umounted..."
 		exit 1
 	fi
-		
+
 	fusermount -u /home/san/mnt/aosp
-#	fusermount -u /home/san/mnt/m7-dev
-	fusermount -u /home/san/.brillo
+	fusermount -u /tftpboot/abox_hub
 }
 
 function print_usage() {
