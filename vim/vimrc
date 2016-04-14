@@ -5,11 +5,12 @@ scriptencoding utf-8
 set encoding=utf-8
 
 set colorcolumn=80 " 80 characters line for coding
-" :set nu/nonu ==> set/unset line numbers
 
+" :set nu/nonu ==> set/unset line numbers
 "set {option}& ==> restore the option to the default value
 "set hlsearch? ==> check the value of the option hlsearch
 "set ignorecase
+
 set smartcase " be case sensitive when input has a capital letter
 set incsearch
 
@@ -29,6 +30,10 @@ let mapleader="," " define prefix for key bindings
 " Otherwise vim will append a newline (0x0a) at the end of the file.
 " This is only an issue when creating a new binary file. When you open an
 " existing binary file vim automatically sets these flags for you.
+
+" :help dib
+" :norm Vg? ==> ROT13 encryption of current line
+" A ==> append at end of line
 " }}}
 
 " Formatting {{{
@@ -44,7 +49,7 @@ set backspace=indent,eol,start
 " }}}
 
 " Key mappings {{{
-nmap <leader>rs :source ~/.vimrc<CR> " nmap=nnoremap
+nmap <leader>rs :source ~/.vimrc<CR> " $MYVIMRC
 " map <leader>EE :Vexplore!<CR><C-W>s
 
 "map <silent><leader>w :w<cr>
@@ -66,6 +71,24 @@ Plugin 'VundleVim/Vundle.vim' " let Vundle manages Vundle
 " Plugins on GitHub
 "Plugin 'gmarik/ingretu' " colorscheme
 "Plugin 'tpope/vim-vividchalk' " colorscheme
+
+Plugin 'triplekiller/vim-linux-coding-style'
+let g:linuxsty_patterns = [ "/.*linux-.*/" ]
+" :LinuxCodingStyle ==> command to format
+
+Plugin 'triplekiller/taglist.vim'
+let Tlist_Ctags_Cmd = '/usr/bin/ctags'
+let Tlist_File_Fold_Auto_CLose = 1
+let Tlist_Show_One_File = 1
+let Tlist_Exit_OnlyWindow = 1
+let Tlist_Use_Left_Window = 1
+map <silent><leader>tl :TlistToggle<cr>
+nmap tl :TlistToogle<cr>
+
+Plugin 'triplekiller/cscope_maps.vim'
+" :cw --> enter into QuickFix when using cscope
+" :vert scs find s <func_name> --> display results in a new window
+" ARCH=arm make cscope/tags --> build cscope index when build Linux kernel
 
 "Plugin 'tpope/vim-git'
 "Plugin 'tpope/vim-fugitive' " git wrapper
@@ -103,52 +126,6 @@ Plugin 'VundleVim/Vundle.vim' " let Vundle manages Vundle
 call vundle#end()
 filetype plugin indent on
 " :help vundle
-" }}}
-
-" taglist {{{
-let Tlist_Ctags_Cmd = '/usr/bin/ctags'
-let Tlist_File_Fold_Auto_CLose = 1
-let Tlist_Show_One_File = 1
-let Tlist_Exit_OnlyWindow = 1
-let Tlist_Use_Left_Window = 1
-map <silent><leader>tl :TlistToggle<cr>
-nmap tl :TlistToogle<cr>
-" }}}
-
-" cscope {{{
-if has("cscope")
-	set csprg=/usr/bin/cscope
-	" check ctags before cscope
-	set csto=1
-	set cst
-	set cscopequickfix=c-,d-,e-,f-,g0,i-,s-,t-
-	set nocsverb
-	" add any database in current directory
-	if filereadable("cscope.out")
-		cs add cscope.out
-	else
-		let cscope_file=findfile("cscope.out", ".;")
-		let cscope_pre=matchstr(cscope_file, ".*/")
-		if !empty(cscope_file) && filereadable(cscope_file)
-			exe "cs add" cscope_file cscope_pre
-		endif
-	endif
-	" :help csverb for more info
-	set csverb
-endif
-
-nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-
-" :cw --> enter into QuickFix when using cscope
-" :vert scs find s <func_name> --> display results in a new window
-" ARCH=arm make cscope/tags --> build cscope index when build Linux kernel
 " }}}
 
 " Cursor sniper {{{
