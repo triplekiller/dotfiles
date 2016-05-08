@@ -146,6 +146,23 @@ au! CursorMoved * call MySetCursor()
 au! CursorMovedI * call MyUnSetCursor()
 " }}}
 
+" clang-format {{{
+" https://github.com/llvm-mirror/clang/blob/master/tools/clang-format/clang-format.py
+" clang-format-3.6 -style=google -dump-config > .clang-format
+
+let g:clang_format_path="/usr/bin/clang-format-3.6"
+
+function! s:ClangFormat()
+	let l:lines="all"
+	pyf /usr/bin/clang-format.py
+endfunction
+
+command! ClangFormat call s:ClangFormat()
+
+map <C-K> :pyf /usr/bin/clang-format.py<CR>
+imap <C-K> <c-o>:pyf /usr/bin/clang-format.py<CR>
+" }}}
+
 " color/font
 " /usr/share/vim/vim74/colors
 " :colo desert256 --> change color scheme in vim
