@@ -147,6 +147,7 @@ au! CursorMovedI * call MyUnSetCursor()
 " }}}
 
 " clang-format {{{
+" sudo pip install cpplint
 " https://github.com/llvm-mirror/clang/blob/master/tools/clang-format/clang-format.py
 " clang-format-3.6 -style=google -dump-config > .clang-format
 
