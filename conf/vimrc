@@ -90,6 +90,8 @@ Plugin 'triplekiller/cscope_maps.vim'
 " :vert scs find s <func_name> --> display results in a new window
 " ARCH=arm make cscope/tags --> build cscope index when build Linux kernel
 
+Plugin 'altercation/vim-colors-solarized.git'
+
 "Plugin 'tpope/vim-git'
 "Plugin 'tpope/vim-fugitive' " git wrapper
 "nnoremap <leader>W :Gwrite<CR>
@@ -167,11 +169,11 @@ imap <C-K> <c-o>:pyf /usr/bin/clang-format.py<CR>
 " color/font
 " /usr/share/vim/vim74/colors
 " :colo desert256 --> change color scheme in vim
-set t_Co=256
-"set background=dark
-"colorscheme solarized
-"colorscheme desert256
-colorscheme desert
+syntax on
+set background=dark
+colorscheme solarized
+let g:solarized_termtrans=1
+set t_Co=16
 
 " Highlight trailing whitespaces {{{
 highlight ExtraWhitespace ctermbg=red guibg=red
