@@ -90,8 +90,13 @@ Plugin 'triplekiller/cscope_maps.vim'
 " :vert scs find s <func_name> --> display results in a new window
 " ARCH=arm make cscope/tags --> build cscope index when build Linux kernel
 
-Plugin 'altercation/vim-colors-solarized.git'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'junegunn/goyo.vim'
+Plugin 'tpope/vim-surround'
+" :help surround
+
+Plugin 'reedes/vim-pencil'
 
 "Plugin 'tpope/vim-git'
 "Plugin 'tpope/vim-fugitive' " git wrapper
