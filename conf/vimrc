@@ -1,3 +1,5 @@
+" http://www.drbunsen.org/writing-in-vim/
+
 " General {{{
 set nocompatible " Vi IMproved other than Vi (set nocp)
 let g:is_posix=1 " vim's default is bourne shell, bring it up to the 90s
