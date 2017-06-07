@@ -1,4 +1,5 @@
-" http://www.drbunsen.org/writing-in-vim/
+" http://naperwrimo.org/wiki/index.php?title=Vim_for_Writers
+" http://vimcasts.org/episodes/how-to-fold/
 
 " General {{{
 set nocompatible " Vi IMproved other than Vi (set nocp)
@@ -6,7 +7,13 @@ let g:is_posix=1 " vim's default is bourne shell, bring it up to the 90s
 scriptencoding utf-8
 set encoding=utf-8
 
-set colorcolumn=80 " 80 characters line for coding
+set colorcolumn=80 " 80 characters line highlight for coding
+set textwidth=80 " when excedding 80 lines vim add a '\n' automatically
+" m: Also break at a multi-byte character above 255. This is useful for Asian
+" text where every character is a word on its own
+" M: When joining lines, do not insert a space before or after a multi-byte
+" character. Overrules the 'B' flag
+set formatoptions+=mM
 
 " :set nu/nonu ==> set/unset line numbers
 "set {option}& ==> restore the option to the default value
@@ -98,7 +105,7 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'tpope/vim-surround'
 " :help surround
 
-Plugin 'reedes/vim-pencil'
+Plugin 'suan/vim-instant-markdown'
 
 "Plugin 'tpope/vim-git'
 "Plugin 'tpope/vim-fugitive' " git wrapper
