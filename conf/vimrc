@@ -1,24 +1,50 @@
+" Links {{{
+
 " http://naperwrimo.org/wiki/index.php?title=Vim_for_Writers
 " http://vimcasts.org/episodes/how-to-fold/
+
+" }}}
+
+" Usage {{{
+
+" :set nu/nonu ==> set/unset line numbers
+" :set {option}& ==> restore the option to the default value
+" :set hlsearch? ==> check the value of the option hlsearch
+" :set ignorecase
+" :verbose set filetype?
+
+" Running vim without any plugins or configuration
+" vim -u NONE test.md
+
+" Find what plugins have been sourced
+" :scriptnames
+
+" ggVGgq/gggqG: format the whole file(gg: jump; VG: select; gq: format)
+
+" hex editing
+" vim -b xxx.bin --> :%!xxd --> :%!xxd -r --> :w
+" vimdiff <(xxd bin_file_1) <(xxd bin_file_2)
+
+" When you are creating a new binary file, you most probably want to set some
+" flags before saving:
+" :set noeol
+" :set binary
+"
+" Otherwise vim will append a newline '\n'(0x0a) at the end of the file.
+" This is only an issue when creating a new binary file. When you open an
+" existing binary file vim automatically sets these flags for you.
+
+" :help dib
+" :norm Vg? ==> ROT13 encryption of current line
+" A ==> append at end of line
+
+" }}}
 
 " General {{{
 set nocompatible " Vi IMproved other than Vi (set nocp)
 let g:is_posix=1 " vim's default is bourne shell, bring it up to the 90s
 scriptencoding utf-8
 set encoding=utf-8
-
-set colorcolumn=80 " 80 characters line highlight for coding
-set textwidth=80 " when excedding 80 lines vim add a '\n' automatically
-" m: Also break at a multi-byte character above 255. This is useful for Asian
-" text where every character is a word on its own
-" M: When joining lines, do not insert a space before or after a multi-byte
-" character. Overrules the 'B' flag
-set formatoptions+=mM
-
-" :set nu/nonu ==> set/unset line numbers
-"set {option}& ==> restore the option to the default value
-"set hlsearch? ==> check the value of the option hlsearch
-"set ignorecase
 
 set smartcase " be case sensitive when input has a capital letter
 set incsearch
@@ -27,22 +53,6 @@ set pastetoggle=<F10> " :set paste/nopaste for safer pasting
 
 let mapleader="," " define prefix for key bindings
 
-" hex editing
-" vim -b xxx.bin --> :%!xxd --> :%!xxd -r --> :w
-" vimdiff <(xxd bin_file_1) <(xxd bin_file_2)
-"
-" When you are creating a new binary file, you most probably want to set some
-" flags before saving:
-" :set noeol
-" :set binary
-"
-" Otherwise vim will append a newline (0x0a) at the end of the file.
-" This is only an issue when creating a new binary file. When you open an
-" existing binary file vim automatically sets these flags for you.
-
-" :help dib
-" :norm Vg? ==> ROT13 encryption of current line
-" A ==> append at end of line
 " }}}
 
 " Formatting {{{
@@ -55,6 +65,19 @@ set autoindent
 set cindent " strict rules for C programs
 
 set backspace=indent,eol,start
+
+set colorcolumn=80 " 80 characters line highlight for coding
+set textwidth=80 " when excedding 80 lines vim add a '\n' automatically
+" m: Also break at a multi-byte character above 255. This is useful for Asian
+" text where every character is a word on its own.
+" M: When joining lines, do not insert a space before or after a multi-byte
+" character. Overrules the 'B' flag.
+" :help fo-table
+set formatoptions+=mM
+
+" Make vim to recognize *.md as markdown filetype
+autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
+
 " }}}
 
 " Key mappings {{{
@@ -181,7 +204,7 @@ map <C-K> :pyf /usr/bin/clang-format.py<CR>
 imap <C-K> <c-o>:pyf /usr/bin/clang-format.py<CR>
 " }}}
 
-" color/font
+" color/font {{{
 " /usr/share/vim/vim74/colors
 " :colo desert256 --> change color scheme in vim
 syntax on
@@ -190,6 +213,7 @@ let g:solarized_termtrans=1
 "set t_Co=256
 colorscheme solarized
 highlight ColorColumn ctermbg=red guibg=red
+" }}}
 
 " Highlight trailing whitespaces {{{
 highlight ExtraWhitespace ctermbg=red guibg=red
