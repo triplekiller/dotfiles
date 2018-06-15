@@ -1,5 +1,6 @@
 # Should be in $HOME/.kermrc
 # sudo kermit ==> usb ==> usb #N
+# Run "ctrl+\+c" return to kermit
 
 define usb {
 	set line /dev/ttyUSB0
