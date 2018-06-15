@@ -1,3 +1,3 @@
 #!/bin/sh
 
-nohup /home/san/sdk/eclipse/eclipse > /dev/null 2>&1 &
+nohup /opt/eclipse/eclipse > /dev/null 2>&1 &
