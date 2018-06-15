@@ -1,17 +1,15 @@
 " Links {{{
-
 " http://naperwrimo.org/wiki/index.php?title=Vim_for_Writers
 " http://vimcasts.org/episodes/how-to-fold/
-
 " }}}
 
 " Usage {{{
-
 " :set nu/nonu ==> set/unset line numbers
 " :set {option}& ==> restore the option to the default value
 " :set hlsearch? ==> check the value of the option hlsearch
 " :set ignorecase
 " :verbose set filetype?
+" :verbose set formatoptions?
 
 " Running vim without any plugins or configuration
 " vim -u NONE test.md
@@ -37,66 +35,17 @@
 " :help dib
 " :norm Vg? ==> ROT13 encryption of current line
 " A ==> append at end of line
-
 " }}}
 
-" General {{{
-set nocompatible " Vi IMproved other than Vi (set nocp)
-let g:is_posix=1 " vim's default is bourne shell, bring it up to the 90s
-scriptencoding utf-8
-set encoding=utf-8
-
-set smartcase " be case sensitive when input has a capital letter
-set incsearch
-
-set pastetoggle=<F10> " :set paste/nopaste for safer pasting
-
-let mapleader="," " define prefix for key bindings
-
-" }}}
-
-" Formatting {{{
-set tabstop=4 " ts: size of a hard tab
-set shiftwidth=4 " sw: size of a indent
-set softtabstop=4 " sts: size of columns when hit Tab in insert mode
-set noexpandtab " just use tab other than space
-
-set autoindent
-set cindent " strict rules for C programs
-
-set backspace=indent,eol,start
-
-set colorcolumn=80 " 80 characters line highlight for coding
-set textwidth=80 " when excedding 80 lines vim add a '\n' automatically
-" m: Also break at a multi-byte character above 255. This is useful for Asian
-" text where every character is a word on its own.
-" M: When joining lines, do not insert a space before or after a multi-byte
-" character. Overrules the 'B' flag.
-" :help fo-table
-set formatoptions+=mM
-
-" Make vim to recognize *.md as markdown filetype
-autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
-
-" }}}
-
-" Key mappings {{{
-nmap <leader>rs :source ~/.vimrc<CR> " $MYVIMRC
-" map <leader>EE :Vexplore!<CR><C-W>s
-
-"map <silent><leader>w :w<cr>
-"map <silent><leader>qa :qa<cr>
-"map <silent><leader>qq :q!<cr>
-"map <silent><leader>wq :wq<cr>
-"map <silent><leader>q :q<cr>
-
-" }}}
 
 " Vundle {{{
+set nocompatible " Vi IMproved other than Vi (set nocp)
 filetype off " required for Vundle
+
 " Set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
+
 " https://github.com/VundleVim/Vundle.vim
 Plugin 'VundleVim/Vundle.vim' " let Vundle manages Vundle
 
@@ -129,6 +78,13 @@ Plugin 'tpope/vim-surround'
 " :help surround
 
 Plugin 'suan/vim-instant-markdown'
+
+Plugin 'rhysd/vim-clang-format'
+let g:clang_format#detect_style_file = 1
+" map to <leader>cf in C++ code
+autocmd FileType c,cc,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cc,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+" clang-format -style=Google -dump-config > .clang-format
 
 "Plugin 'tpope/vim-git'
 "Plugin 'tpope/vim-fugitive' " git wrapper
@@ -164,8 +120,58 @@ Plugin 'suan/vim-instant-markdown'
 
 " All of the plugins must be added before the following line
 call vundle#end()
-filetype plugin indent on
+filetype plugin on
 " :help vundle
+" }}}
+
+" General {{{
+let g:is_posix=1 " vim's default is bourne shell, bring it up to the 90s
+scriptencoding utf-8
+set encoding=utf-8
+
+set smartcase " be case sensitive when input has a capital letter
+set incsearch
+
+set pastetoggle=<F10> " :set paste/nopaste for safer pasting
+
+let mapleader="," " define prefix for key bindings
+" }}}
+
+" Formatting {{{
+set tabstop=4 " ts: size of a hard tab
+set shiftwidth=4 " sw: size of a indent
+set softtabstop=4 " sts: size of columns when hit Tab in insert mode
+set noexpandtab " just use tab other than space
+
+set autoindent
+set cindent " strict rules for C programs
+
+set backspace=indent,eol,start
+
+set textwidth=80 " when excedding 80 lines vim add a '\n' automatically
+" m: Also break at a multi-byte character above 255. This is useful for Asian
+" text where every character is a word on its own.
+" M: When joining lines, do not insert a space before or after a multi-byte
+" character. Overrules the 'B' flag.
+" :help fo-table
+set formatoptions+=mM
+au FileType * setlocal fo+=t
+au FileType * setlocal fo-=o
+set colorcolumn=+1 " 80 characters line highlight for coding
+
+" Make vim to recognize *.md as markdown filetype
+autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
+" }}}
+
+" Key mappings {{{
+nmap <leader>rs :source ~/.vimrc<CR> " $MYVIMRC
+" map <leader>EE :Vexplore!<CR><C-W>s
+
+"map <silent><leader>w :w<cr>
+"map <silent><leader>qa :qa<cr>
+"map <silent><leader>qq :q!<cr>
+"map <silent><leader>wq :wq<cr>
+"map <silent><leader>q :q<cr>
 " }}}
 
 " Cursor sniper {{{
@@ -189,19 +195,20 @@ au! CursorMovedI * call MyUnSetCursor()
 " clang-format {{{
 " sudo pip install cpplint
 " https://github.com/llvm-mirror/clang/blob/master/tools/clang-format/clang-format.py
-" clang-format-3.6 -style=google -dump-config > .clang-format
+" wget https://raw.githubusercontent.com/llvm-mirror/clang/master/tools/clang-format/clang-format.py
+" clang-format -style=Google -dump-config > .clang-format
 
-let g:clang_format_path="/usr/bin/clang-format-3.6"
+"let g:clang_format_path="/usr/bin/clang-format"
 
-function! s:ClangFormat()
-	let l:lines="all"
-	pyf /usr/bin/clang-format.py
-endfunction
+"function! s:ClangFormat()
+"	let l:lines="all"
+"	py3f /usr/bin/clang-format.py
+"endfunction
 
-command! ClangFormat call s:ClangFormat()
+"command! ClangFormat call s:ClangFormat()
 
-map <C-K> :pyf /usr/bin/clang-format.py<CR>
-imap <C-K> <c-o>:pyf /usr/bin/clang-format.py<CR>
+"map <C-K> :py3f /usr/bin/clang-format.py<CR>
+"imap <C-K> <c-o>:py3f /usr/bin/clang-format.py<CR>
 " }}}
 
 " color/font {{{
