@@ -4,6 +4,11 @@
 " }}}
 
 " Usage {{{
+" For Ubuntu-20.04 a small version without GUI vim is installed, so update it
+" $ readlink -f `which vi`
+" $ sudo apt update
+" $ sudo install vim
+
 " :set nu/nonu ==> set/unset line numbers
 " :set {option}& ==> restore the option to the default value
 " :set hlsearch? ==> check the value of the option hlsearch
@@ -39,6 +44,10 @@
 
 
 " Vundle {{{
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+" Launch vim and run :PluginInstall
+" Or install from command line: vim +PluginInstall +qall
+
 set nocompatible " Vi IMproved other than Vi (set nocp)
 filetype off " required for Vundle
 
@@ -77,7 +86,23 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'tpope/vim-surround'
 " :help surround
 
-Plugin 'suan/vim-instant-markdown'
+Plugin 'instant-markdown/vim-instant-markdown'
+" First install a stable version of nodejs from binary to /opt/nodejs
+" Then run `sudo npm -g install instant-markdown-d` to install a mini-server
+
+filetype plugin on
+"Uncomment to override defaults:
+"let g:instant_markdown_slow = 1
+"let g:instant_markdown_autostart = 0
+"let g:instant_markdown_open_to_the_world = 1
+"let g:instant_markdown_allow_unsafe_content = 1
+"let g:instant_markdown_allow_external_content = 0
+"let g:instant_markdown_mathjax = 1
+"let g:instant_markdown_mermaid = 1
+"let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
+let g:instant_markdown_autoscroll = 1
+"let g:instant_markdown_port = 8888
+"let g:instant_markdown_python = 1
 
 Plugin 'rhysd/vim-clang-format'
 let g:clang_format#detect_style_file = 1
