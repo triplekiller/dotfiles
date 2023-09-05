@@ -1,6 +1,7 @@
 " Links {{{
 " http://naperwrimo.org/wiki/index.php?title=Vim_for_Writers
 " http://vimcasts.org/episodes/how-to-fold/
+" https://github.com/linux-bytes/vim
 " }}}
 
 " Usage {{{
@@ -79,6 +80,19 @@ Plugin 'triplekiller/cscope_maps.vim'
 " :cw --> enter into QuickFix when using cscope
 " :vert scs find s <func_name> --> display results in a new window
 " ARCH=arm make cscope/tags --> build cscope index when build Linux kernel
+
+" Shortcuts for cscope(:cs help find)
+
+" Ctrl+\ Equal to ':cs find'
+" Ctrl+] Jump to the symbol definition
+" Ctrl+t Jump back to the original location before search
+" Ctrl+d Exit from cscope interactive prompt
+
+" Ctrl+\+s Find the C symbol
+" Ctrl+\+t Find this text string
+" Ctrl+\+e Find this egrep pattern
+" Ctrl+\+g Find this definition
+" Ctrl+\+c Find functions calling this function
 
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'davidhalter/jedi-vim'
