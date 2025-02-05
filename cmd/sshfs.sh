@@ -49,15 +49,15 @@ function print_usage() {
 
 Usage: ${0##*/} [option]
  ${0##*/} -h
- ${0##*/} <source> <directory>
- ${0##*/} -u <directory>
+ ${0##*/} -m <source_dir>
+ ${0##*/} -u <target_dir>
 
 Mount your remote directory using sshfs.
 
 Options:
  -h, --help                display this help and exit
- -m, --mount  <src> <dir>  mount the directory
- -u, --umount <dir>        umount the directory
+ -m, --mount  <source_dir> mount the source_dir (default to $HOME/mnt)
+ -u, --umount <target_dir> umount the target directory
 EOF
 
 	exit 1
@@ -76,7 +76,7 @@ while true; do
 		-m|--mount) shift; sshfs_mount "$1";;
 		-u|--umount) shift; sshfs_umount "$1";;
 		--) shift; break;;
-		*) echo "Internal error..."; exit 1;;
+		*) exit 1;;
 	esac
 done
 
